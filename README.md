@@ -1,2 +1,2 @@
-# Trena-erFak-r-
+# TrenazerFakyru
 Trenažer Fakýrů
