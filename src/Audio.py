@@ -1,90 +1,43 @@
+import sounddevice as sd
 import numpy as np
-import matplotlib.pyplot as plt
-import pyaudio
+import scipy.fftpack
 
-NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+# General settings
+SAMPLE_FREQ = 44100 # sample frequency in Hz
+WINDOW_SIZE = 44100 # window size of the DFT in samples
+WINDOW_STEP = 21050 # step size of window
+WINDOW_T_LEN = WINDOW_SIZE / SAMPLE_FREQ # length of the window in seconds
+SAMPLE_T_LENGTH = 1 / SAMPLE_FREQ # length between two samples in seconds
+windowSamples = [0 for _ in range(WINDOW_SIZE)]
 
-SAMPLE = 22050
-FRAME_SIZE = 2048
-FRAMES_PER_FFT = 16
-SAMPLES_PER_FFT = FRAME_SIZE * FRAMES_PER_FFT
-FREQ_STEP = float(SAMPLE) / SAMPLES_PER_FFT
-NOTE_MIN = 60  # C4
-NOTE_MAX = 69  # A4
+# This function finds the closest note for a given pitch
+# Returns: note (e.g. A4, G#3, ..), pitch of the tone
+CONCERT_PITCH = 440
+ALL_NOTES = ["A","A#","B","C","C#","D","D#","E","F","F#","G","G#"]
+def find_closest_note(pitch):
+  i = int(np.round(np.log2(pitch/CONCERT_PITCH)*12))
+  closest_note = ALL_NOTES[i%12] + str(4 + (i + 9) // 12)
+  closest_pitch = CONCERT_PITCH*2**(i/12)
+  return closest_note, closest_pitch
 
-# Setup
-PyAudioInstance = pyaudio.PyAudio()
-Buffer = np.zeros(SAMPLES_PER_FFT, dtype=np.float32)
-# Hanning Window Function
-Hann_Win = 0.5 * (1 - np.cos(np.linspace(0, 2 * np.pi, SAMPLES_PER_FFT, False)))
+# The sounddecive callback function
+# Provides us with new data once WINDOW_STEP samples have been fetched
+def Run(indata, frames, time, status):
+  global windowSamples
+  if status:
+    print(status)
+  if any(indata):
+    windowSamples = np.concatenate((windowSamples,indata[:, 0])) # append new samples
+    windowSamples = windowSamples[len(indata[:, 0]):] # remove old samples
+    magnitudeSpec = abs( scipy.fftpack.fft(windowSamples)[:len(windowSamples)//2] )
 
-num_frames = 0
-sample = 0 #max sample is 20
-sample_Arr = np.zeros(20)
+    for i in range(int(62/(SAMPLE_FREQ/WINDOW_SIZE))):
+      magnitudeSpec[i] = 0 #suppress mains hum
 
-# Conversion
+    maxInd = np.argmax(magnitudeSpec)
+    maxFreq = maxInd * (SAMPLE_FREQ/WINDOW_SIZE)
+    closestNote, closestPitch = find_closest_note(maxFreq)
 
-
-def freq_to_number(f): return 69 + 12 * np.log2(f / 440.0)
-def number_to_freq(n): return 440 * 2.0 ** ((n - 69) / 12.0)
-def note_name(n): return NOTES[n % 12] + str(n / 12 - 1)
-def note_to_fftbin(n): return number_to_freq(n) / FREQ_STEP
-
-
-imin = max(0, int(np.floor(note_to_fftbin(NOTE_MIN - 1))))
-imax = min(SAMPLES_PER_FFT, int(np.ceil(note_to_fftbin(NOTE_MAX + 1))))
-
-
-def ViewDevices():
-    info = PyAudioInstance.get_host_api_info_by_index(0)
-    numdevices = info.get("deviceCount")
-
-    for i in range(numdevices):
-        if (PyAudioInstance.get_device_info_by_host_api_device_index(0, i).get("maxInputChannels")) > 0:
-            print("Input Device id ", i, " - ",
-                  PyAudioInstance.get_device_info_by_host_api_device_index(0, i).get('name'))
-
-
-def CreateStream(InputDeviceIndex):
-    global stream
-    stream = PyAudioInstance.open(format=pyaudio.paInt16,
-                                  channels=1,
-                                  rate=SAMPLE,
-                                  input=True,
-                                  frames_per_buffer=FRAME_SIZE,
-                                  input_device_index=InputDeviceIndex
-                                  )
-    stream.start_stream()
-
-
-def Run():
-    global num_frames, sample, sample_Arr
-
-    Buffer[:-FRAME_SIZE] = Buffer[FRAME_SIZE:]
-    Buffer[-FRAME_SIZE:] = np.fromstring(stream.read(FRAME_SIZE), np.int16)
-
-    # Run FFT
-    fft = np.fft.rfft(Buffer * Hann_Win)
-    freq = (np.abs(fft[imin:imax]).argmax() + imin) * FREQ_STEP
-
-    n = freq_to_number(freq)
-    n0 = int(round(n))
-
-    num_frames += 1
-    if num_frames >= FRAMES_PER_FFT:
-        print("freq: {:7.2f} Hz     note: {:>3s} {:+.2f}".format(freq, note_name(n0), n-n0))
-
-    """
-    sample_Arr[sample] = freq
-
-    if sample == 19:
-        plt.plot(sample_Arr)
-        plt.show()
-        sample_Arr = np.zeros(20)
-        sample = 0
-
-    sample += 1
-    """
-
-def StopStream(): stream.stop_stream()
-def DestroyStream(): stream.close()
+    print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+  else:
+    print('no input')
