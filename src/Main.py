@@ -1,6 +1,7 @@
 from pickle import FRAME
 import Audio as A
 import Video as V
+import cv2
 
 import numpy as np
 
@@ -9,6 +10,13 @@ num_frames = 0
 def Main():
     global num_frames
     A.ViewDevices()
+    video = V.init()
+    while (True):
+        ret, frame = V.read(video)
+        cv2.imshow('frame', frame)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        
 
     A.CreateStream(6)
     while A.stream.is_active():
