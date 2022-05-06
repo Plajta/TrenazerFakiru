@@ -2,7 +2,7 @@ from types import FrameType
 import cv2
 
 def init():
-    video = cv2.VideoCapture(0)
+    video = cv2.VideoCapture(2)
     return video
 
 def read(video):
@@ -11,3 +11,7 @@ def read(video):
 
 def display(frame):
     cv2.imshow('frame', frame)
+
+def end(video):
+    video.release()
+    cv2.destroyAllWindows()
