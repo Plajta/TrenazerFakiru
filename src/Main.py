@@ -7,8 +7,10 @@ import numpy as np
 num_frames = 0
 
 def Main():
+    global num_frames
     A.ViewDevices()
-    A.CreateStream(8)
+
+    A.CreateStream(6)
     while A.stream.is_active():
         try:
             A.Buffer[:-A.FRAME_SIZE] = A.Buffer[A.FRAME_SIZE:]
@@ -28,7 +30,7 @@ def Main():
             A.DestroyStream()
             print("Exited successfully")
         
-
+    
 
 if __name__ == "__main__":
     Main()
