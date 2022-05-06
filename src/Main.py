@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 
 def Main():
     A.ViewDevices()
-    A.CreateStream(8)
-    video = V.init()
+    A.CreateStream(6)
+    video = V.init(2)
     while (True):
         A.Run()
         
