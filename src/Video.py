@@ -2,7 +2,7 @@ from types import FrameType
 import cv2
 
 def init():
-    video = cv2.VideoCapture(2)
+    video = cv2.VideoCapture(0)
     return video
 
 def read(video):
