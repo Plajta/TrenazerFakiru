@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 def Main():
     A.ViewDevices()
     A.CreateStream(6)
-    video = V.init()
+    video = V.init(2)
     while (True):
         A.Run()
         
