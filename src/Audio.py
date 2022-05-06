@@ -1,8 +1,11 @@
 import numpy as np
 import pyaudio
 
+NOTES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
+
 SAMPLE = 22050
 FRAME_SIZE = 2048
+
 
 #Setup
 PyAudioInstance = pyaudio.PyAudio()

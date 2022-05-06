@@ -1,8 +1,8 @@
-import Audio
-import Video
+import Audio as A
+import Video as V
 
 def Main():
-    print("test")
-    
+    A.ViewDevices()
+
 if __name__ == "__main__":
     Main() 
