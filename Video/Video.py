@@ -55,6 +55,7 @@ def HandsDetect(image):
         return cv2.flip(image, 1), results
 
 def Main():
+    Wrists = [[0, 0], [0, 0]]
     video = init(2)
     while True:
         ret, frame = video.read()
