@@ -49,4 +49,4 @@ def HandsDetect(image):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             exit()   
 
-        return cv2.flip(image, 1), results
+        return image, results

@@ -11,6 +11,8 @@ joystick = np.zeros(2)
 Default_X = 320
 Default_Y = 240
 
+easing = 0.05
+
 def Main():
     global Last_loc
 
@@ -41,9 +43,17 @@ def Main():
 
             mouse.move(joystick[0], joystick[1])
 
-            #cv2.imshow('frame', image)
-            #if cv2.waitKey(1) & 0xFF == ord('q'):
-            #    break
+            #dx = joystick[0]
+            #x = (V.Wrists[0][0] + V.Wrists[1][0]) / 2
+            #x += dx * easing
+
+            #dy = joystick[1]
+            #y = (V.Wrists[0][1] + V.Wrists[1][1]) / 2
+            #y += dy * easing
+
+            cv2.imshow('frame', image)
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
     #except Exception as e: print(str(e))
         
 if __name__ == "__main__":
