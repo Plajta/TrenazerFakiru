@@ -24,7 +24,7 @@ def Main():
         while True:
             ret, frame = V.read(video)
             im_height, im_width, channels = frame.shape
-            if not ret: continueD
+            if not ret: continue
 
             image, hands = V.HandsDetect(frame)
                 
