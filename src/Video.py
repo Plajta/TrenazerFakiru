@@ -1,11 +1,14 @@
 from cgi import MiniFieldStorage
 import mediapipe as mp
 import cv2
+from pynput.mouse import Button, Controller
 
 #setup
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
+
+mouse = Controller()
 
 
 Wrists = [[0, 0], [0, 0]]
@@ -45,3 +48,6 @@ def HandsDetect(image):
             Wrists = [[0, 0], [0, 0]]
 
         return cv2.flip(image, 1), results
+
+def AbsolteMouse(abs_pos):
+    mouse.position = (1920-4*abs_pos[0], 2*abs_pos[1])

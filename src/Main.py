@@ -32,6 +32,8 @@ def Main():
                 Diff = np.subtract(Last_loc, Current_loc)
                 #print(Diff)
                 
+                V.AbsolteMouse(((Current_loc[0][0]+Current_loc[1][0])/2, (Current_loc[0][1]+Current_loc[1][1])/2))
+
                 Last_loc = Current_loc
 
                 if (Diff[1][0] != 0 and Diff[1][1] != 0) or (Diff[0][0] != 0 and Diff[0][1] != 0):
