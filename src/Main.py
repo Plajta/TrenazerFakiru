@@ -41,7 +41,7 @@ def Main():
             joystick[1] = (((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - Default_Y)/3
 
             #targetX = joystick[0]
-            #targetY = joystick[1]Ddddddddddddddd
+            #targetY = joystick[1]
             #print(joystick[0])
             #print(joystick[1])
 
