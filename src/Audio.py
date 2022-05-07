@@ -66,7 +66,9 @@ def Run(indata, frames, time, status):
     elif closestNote == "D6":
       mouse.press(MouseButton.left)
       mouse.release(MouseButton.left)
-      
+    elif closestNote == "C6":
+      mouse.press(MouseButton.right)
+      mouse.release(MouseButton.left)
     
     else:
       keyboard.release('D')
