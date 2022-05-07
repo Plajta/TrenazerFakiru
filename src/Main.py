@@ -34,13 +34,13 @@ def Main():
             joystick[0] = (320 - (V.Wrists[0][0] + V.Wrists[1][0]) / 2)/3
             joystick[1] = (((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - 240)/3
 
-            print(joystick)
+            #print(joystick)
 
             mouse.move(joystick[0], joystick[1])
 
-            cv2.imshow('frame', image)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            #cv2.imshow('frame', image)
+            #if cv2.waitKey(1) & 0xFF == ord('q'):
+            #    break
     #except Exception as e: print(str(e))
         
 if __name__ == "__main__":

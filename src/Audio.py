@@ -2,6 +2,8 @@ import sounddevice as sd
 import numpy as np
 import scipy.fftpack
 from pynput.keyboard import Key, Controller
+from pynput.mouse import Controller as MouseControl
+from pynput.mouse import Button as MouseButton
 import os
 
 # General settings
@@ -12,6 +14,7 @@ WINDOW_T_LEN = WINDOW_SIZE / SAMPLE_FREQ # length of the window in seconds
 SAMPLE_T_LENGTH = 1 / SAMPLE_FREQ # length between two samples in seconds
 windowSamples = [0 for _ in range(WINDOW_SIZE)]
 keyboard = Controller()
+mouse = MouseControl()
 
 oskstate = False
 
@@ -43,7 +46,7 @@ def Run(indata, frames, time, status):
     maxFreq = maxInd * (SAMPLE_FREQ/WINDOW_SIZE)
     closestNote, closestPitch = find_closest_note(maxFreq)
 
-    print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+    #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
     if closestNote == "C5":
       keyboard.press('D')
     elif closestNote == "D5":
@@ -60,6 +63,11 @@ def Run(indata, frames, time, status):
         
       else:
         os.system("gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false")
+    elif closestNote == "D6":
+      mouse.press(MouseButton.left)
+      mouse.release(MouseButton.left)
+      
+    
     else:
       keyboard.release('D')
       keyboard.release('S')
@@ -70,4 +78,4 @@ def Run(indata, frames, time, status):
     #print('no input')
     pass
   
-  #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+  print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
