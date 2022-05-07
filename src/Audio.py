@@ -2,6 +2,7 @@ import sounddevice as sd
 import numpy as np
 import scipy.fftpack
 from pynput.keyboard import Key, Controller
+import os
 
 # General settings
 SAMPLE_FREQ = 44100 # sample frequency in Hz
@@ -11,6 +12,8 @@ WINDOW_T_LEN = WINDOW_SIZE / SAMPLE_FREQ # length of the window in seconds
 SAMPLE_T_LENGTH = 1 / SAMPLE_FREQ # length between two samples in seconds
 windowSamples = [0 for _ in range(WINDOW_SIZE)]
 keyboard = Controller()
+
+oskstate = False
 
 # This function finds the closest note for a given pitch
 # Returns: note (e.g. A4, G#3, ..), pitch of the tone
@@ -51,6 +54,12 @@ def Run(indata, frames, time, status):
       keyboard.press('W')
     elif closestNote == "G5":
       keyboard.press(Key.space)
+    elif closestNote == "H5":
+      if oskstate:
+        os.system("gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled true")
+        
+      else:
+        os.system("gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false")
     else:
       keyboard.release('D')
       keyboard.release('S')
