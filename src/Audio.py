@@ -1,9 +1,9 @@
 import sounddevice as sd
 import numpy as np
 import scipy.fftpack
-from pynput.keyboard import Key, Controller
 from pynput.mouse import Controller as MouseControl
 from pynput.mouse import Button as MouseButton
+import pyautogui
 import os
 
 # General settings
@@ -13,11 +13,9 @@ WINDOW_STEP = 21050 # step size of window
 WINDOW_T_LEN = WINDOW_SIZE / SAMPLE_FREQ # length of the window in seconds
 SAMPLE_T_LENGTH = 1 / SAMPLE_FREQ # length between two samples in seconds
 windowSamples = [0 for _ in range(WINDOW_SIZE)]
-keyboard = Controller()
 mouse = MouseControl()
 
-oskstate = False
-CalibrateInvoked = 0 #Maybe we will use that in future
+last = False
 
 # This function finds the closest note for a given pitch
 # Returns: note (e.g. A4, G#3, ..), pitch of the tone
@@ -32,7 +30,9 @@ def find_closest_note(pitch):
 # The sounddecive callback function
 # Provides us with new data once WINDOW_STEP samples have been fetched
 def Run(indata, frames, time, status):
+  oskstate = False
   global windowSamples
+  global last
   if status:
     print(status)
   if any(indata):
@@ -49,21 +49,20 @@ def Run(indata, frames, time, status):
 
     #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
     if closestNote == "C5":
-      keyboard.press('D')
+      pyautogui.keyDown('D')
+      last = True
     elif closestNote == "D5":
-      keyboard.press('S')
+      pyautogui.keyDown('S')
+      last = True
     elif closestNote == "E5":
-      keyboard.press('A')
+      pyautogui.keyDown('A')
+      last = True
     elif closestNote == "F5":
-      keyboard.press('W')
+      pyautogui.keyDown('W')
+      last = True
     elif closestNote == "G5":
-      keyboard.press(Key.space)
-    elif closestNote == "H5":
-      if oskstate:
-        os.system("gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled true")
-        
-      else:
-        os.system("gsettings set org.gnome.desktop.a11y.applications screen-keyboard-enabled false")
+      pyautogui.keyDown('space')
+      last = True
     elif closestNote == "D6":
       mouse.press(MouseButton.left)
       mouse.release(MouseButton.left)
@@ -71,11 +70,12 @@ def Run(indata, frames, time, status):
       mouse.press(MouseButton.right)
       mouse.release(MouseButton.right)
     else:
-      keyboard.release('D')
-      keyboard.release('S')
-      keyboard.release('A')
-      keyboard.release('W')
-      keyboard.release(Key.space)
+      if last:
+        pyautogui.keyUp('D')
+        pyautogui.keyUp('S')
+        pyautogui.keyUp('A')
+        pyautogui.keyUp('W')
+        pyautogui.keyUp('space')
   else:
     #print('no input')
     pass
