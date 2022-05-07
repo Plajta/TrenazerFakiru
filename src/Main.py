@@ -5,6 +5,8 @@ import sounddevice as sd
 
 import numpy as np
 
+Last_loc = np.zeros(2, 2)
+
 def Main():
     video = V.init(0)
 
@@ -23,7 +25,10 @@ def Main():
                         V.Wrists[i][0] = np.round(hand_landmarks.landmark[V.mp_hands.HandLandmark.WRIST].x * im_width)
                         V.Wrists[i][1] = np.round(hand_landmarks.landmark[V.mp_hands.HandLandmark.WRIST].y * im_height)
 
-                print(V.Wrists)
+                DiffLeft = V.Wrists[0] - Last_loc[0]
+                print(DiffLeft)
+
+                #Dprint(V.Wrists)
 
                 cv2.imshow('frame', image)
                 if cv2.waitKey(1) & 0xFF == ord('q'):

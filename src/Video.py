@@ -31,7 +31,7 @@ def HandsDetect(image):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         results = hands.process(image)
         
-        print(results.multi_handedness)
+        #print(results.multi_handedness)
         #print(results.multi_hand_landmarks)
 
         image.flags.writeable = True
@@ -41,5 +41,7 @@ def HandsDetect(image):
                 mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS, 
                 mp_drawing_styles.get_default_hand_landmarks_style(),
                 mp_drawing_styles.get_default_hand_connections_style())
+        else:
+            Wrists = [[0, 0], [0, 0]]
 
-        return image, results
+        return cv2.flip(image, 1), results
