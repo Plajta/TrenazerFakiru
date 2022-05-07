@@ -1,3 +1,4 @@
+from distutils.errors import DistutilsExecError
 import Audio as A
 import Video as V
 import cv2
@@ -5,14 +6,9 @@ import sounddevice as sd
 from pynput.mouse import Button, Controller
 import numpy as np
 
-Last_loc = np.zeros((2, 2))
-
 mouse = Controller()
 
 def Main():
-    global Last_loc, DiffX, DiffY
-    Last_loc, DiffX, DiffY = 0,0,0
-
     video = V.init(0)
 
     try:
@@ -29,23 +25,6 @@ def Main():
 
                         V.Wrists[i][0] = np.round(hand_landmarks.landmark[V.mp_hands.HandLandmark.WRIST].x * im_width)
                         V.Wrists[i][1] = np.round(hand_landmarks.landmark[V.mp_hands.HandLandmark.WRIST].y * im_height)
-
-
-                Current_loc = np.array(V.Wrists)
-                Diff = np.subtract(Last_loc, Current_loc)
-                #print(Diff)
-                
-                Last_loc = Current_loc
-
-                if (Diff[1][0] != 0 and Diff[1][1] != 0) or (Diff[0][0] != 0 and Diff[0][1] != 0):
-                    DiffX = (Diff[0][0] + Diff[1][0]) / 2
-                    DiffY = (Diff[0][1] + Diff[1][1]) / 2
-                else:
-                    Diff[0][0] = DiffX
-                    Diff[0][1] = DiffY
-
-                mouse.move(DiffX, -DiffY)
-                #print(DiffX, DiffY)
 
                 cv2.imshow('frame', image)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
