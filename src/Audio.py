@@ -38,6 +38,7 @@ def Run(indata, frames, time, status):
     maxFreq = maxInd * (SAMPLE_FREQ/WINDOW_SIZE)
     closestNote, closestPitch = find_closest_note(maxFreq)
 
-    print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+    #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
   else:
-    print('no input')
+    #print('no input')
+    pass
