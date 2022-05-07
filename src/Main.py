@@ -2,13 +2,16 @@ import Audio as A
 import Video as V
 import cv2
 import sounddevice as sd
-
+from pynput.mouse import Button, Controller
 import numpy as np
 
 Last_loc = np.zeros((2, 2))
 
+mouse = Controller()
+
 def Main():
     global Last_loc, DiffX, DiffY
+    Last_loc, DiffX, DiffY = 0,0,0
 
     video = V.init(0)
 
@@ -41,11 +44,12 @@ def Main():
                     Diff[0][0] = DiffX
                     Diff[0][1] = DiffY
 
-                print(DiffX, DiffY)
+                mouse.move(DiffX, -DiffY)
+                #print(DiffX, DiffY)
 
                 cv2.imshow('frame', image)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
-                    break
+                    breakSD
     except Exception as e: print(str(e))
         
 if __name__ == "__main__":
