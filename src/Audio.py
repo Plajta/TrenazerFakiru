@@ -82,4 +82,4 @@ def Run(indata, frames, time, status):
     #print('no input')
     pass
   
-  print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+  #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")

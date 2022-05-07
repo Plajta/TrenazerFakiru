@@ -1,11 +1,12 @@
-from pynput.mouse import Button, Controller
+#from pynput.mouse import Button, Controller
 import Audio as A
 import Video as V
 import cv2
 import sounddevice as sd
 import numpy as np
+import pyautogui
 
-mouse = Controller()
+#mouse = Controller()
 joystick = np.zeros(2)
 
 Default_X = 320
@@ -21,7 +22,7 @@ def Main():
         while True:
             ret, frame = V.read(video)
             im_height, im_width, channels = frame.shape
-            if not ret: continue
+            if not ret: continueD
 
             image, hands = V.HandsDetect(frame)
                 
@@ -37,9 +38,18 @@ def Main():
             joystick[0] = (Default_X - (V.Wrists[0][0] + V.Wrists[1][0]) / 2)/3
             joystick[1] = (((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - Default_Y)/3
 
+            #targetX = joystick[0]
+            #targetY = joystick[1]Ddddddddddddddd
+            #print(joystick[0])
+            #print(joystick[1])
+
+            if np.abs(joystick[0]) < 5: joystick[0] = 0
+            elif np.abs(joystick[1]) < 5: joystick[1] = 0
+
             #print(joystick)
 
-            mouse.move(joystick[0], joystick[1])
+            pyautogui.move(joystick[0],joystick[1])
+            #pyautogui.move(joystick[0],joystick[1], 0.1, pyautogui.easeInOutSine)
 
             #cv2.imshow('frame', image)
             #if cv2.waitKey(1) & 0xFF == ord('q'):
