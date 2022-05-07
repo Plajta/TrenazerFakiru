@@ -31,8 +31,8 @@ def Main():
                 V.Wrists = [[320, 240], [320, 240]]
 
             
-            joystick[0] = 320 - (V.Wrists[0][0] + V.Wrists[1][0]) / 2
-            joystick[1] = ((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - 240
+            joystick[0] = (320 - (V.Wrists[0][0] + V.Wrists[1][0]) / 2)/3
+            joystick[1] = (((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - 240)/3
 
             print(joystick)
 
