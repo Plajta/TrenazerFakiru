@@ -3,7 +3,6 @@ import Audio as A
 import Video as V
 import cv2
 import sounddevice as sd
-from pynput.mouse import Button, Controller
 import numpy as np
 
 mouse = Controller()
