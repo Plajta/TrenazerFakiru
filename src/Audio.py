@@ -40,7 +40,7 @@ def Run(indata, frames, time, status):
     maxFreq = maxInd * (SAMPLE_FREQ/WINDOW_SIZE)
     closestNote, closestPitch = find_closest_note(maxFreq)
 
-    #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+    print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
     if closestNote == "C5":
       keyboard.press('D')
     elif closestNote == "D5":
@@ -60,3 +60,5 @@ def Run(indata, frames, time, status):
   else:
     #print('no input')
     pass
+  
+  print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
