@@ -17,7 +17,7 @@ easing = 0.05
 def Main():
     global Last_loc
 
-    video = V.init(2)
+    video = V.init(0)
 
     #try:
     with sd.InputStream(channels=1, callback=A.Run, blocksize=A.WINDOW_STEP, samplerate=A.SAMPLE_FREQ):
@@ -41,7 +41,7 @@ def Main():
             joystick[1] = (((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - Default_Y)/3
 
             #targetX = joystick[0]
-            #targetY = joystick[1]Ddddddddddddddd
+            #targetY = joystick[1]
             #print(joystick[0])
             #print(joystick[1])
 
