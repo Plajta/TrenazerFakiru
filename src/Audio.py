@@ -17,6 +17,7 @@ keyboard = Controller()
 mouse = MouseControl()
 
 oskstate = False
+CalibrateInvoked = 0 #Maybe we will use that in future
 
 # This function finds the closest note for a given pitch
 # Returns: note (e.g. A4, G#3, ..), pitch of the tone
@@ -68,8 +69,7 @@ def Run(indata, frames, time, status):
       mouse.release(MouseButton.left)
     elif closestNote == "C6":
       mouse.press(MouseButton.right)
-      mouse.release(MouseButton.left)
-    
+      mouse.release(MouseButton.right)
     else:
       keyboard.release('D')
       keyboard.release('S')

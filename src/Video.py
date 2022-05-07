@@ -45,4 +45,8 @@ def HandsDetect(image):
                 mp_drawing_styles.get_default_hand_landmarks_style(),
                 mp_drawing_styles.get_default_hand_connections_style())
 
+        cv2.imshow("frame", image)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            exit()   
+
         return cv2.flip(image, 1), results

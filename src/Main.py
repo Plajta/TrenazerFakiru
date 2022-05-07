@@ -8,10 +8,13 @@ import numpy as np
 mouse = Controller()
 joystick = np.zeros(2)
 
+Default_X = 320
+Default_Y = 240
+
 def Main():
     global Last_loc
 
-    video = V.init(0)
+    video = V.init(2)
 
     #try:
     with sd.InputStream(channels=1, callback=A.Run, blocksize=A.WINDOW_STEP, samplerate=A.SAMPLE_FREQ):
@@ -31,8 +34,8 @@ def Main():
                 V.Wrists = [[320, 240], [320, 240]]
 
             
-            joystick[0] = (320 - (V.Wrists[0][0] + V.Wrists[1][0]) / 2)/3
-            joystick[1] = (((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - 240)/3
+            joystick[0] = (Default_X - (V.Wrists[0][0] + V.Wrists[1][0]) / 2)/3
+            joystick[1] = (((V.Wrists[0][1] + V.Wrists[1][1]) / 2) - Default_Y)/3
 
             #print(joystick)
 
