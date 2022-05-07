@@ -49,7 +49,7 @@ def Main():
 
                 cv2.imshow('frame', image)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
-                    breakSD
+                    break
     except Exception as e: print(str(e))
         
 if __name__ == "__main__":
