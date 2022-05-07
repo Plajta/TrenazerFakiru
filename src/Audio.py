@@ -7,6 +7,8 @@ import pyautogui
 import os
 
 # General settings
+pyautogui.FAILSAFE = False
+
 SAMPLE_FREQ = 44100 # sample frequency in Hz
 WINDOW_SIZE = 44100 # window size of the DFT in samples
 WINDOW_STEP = 21050 # step size of window
