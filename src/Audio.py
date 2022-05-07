@@ -1,6 +1,7 @@
 import sounddevice as sd
 import numpy as np
 import scipy.fftpack
+from pynput.keyboard import Key, Controller
 
 # General settings
 SAMPLE_FREQ = 44100 # sample frequency in Hz
@@ -9,6 +10,7 @@ WINDOW_STEP = 21050 # step size of window
 WINDOW_T_LEN = WINDOW_SIZE / SAMPLE_FREQ # length of the window in seconds
 SAMPLE_T_LENGTH = 1 / SAMPLE_FREQ # length between two samples in seconds
 windowSamples = [0 for _ in range(WINDOW_SIZE)]
+keyboard = Controller()
 
 # This function finds the closest note for a given pitch
 # Returns: note (e.g. A4, G#3, ..), pitch of the tone
@@ -39,5 +41,21 @@ def Run(indata, frames, time, status):
     closestNote, closestPitch = find_closest_note(maxFreq)
 
     print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+    if closestNote == "C5":
+      keyboard.press('D')
+    elif closestNote == "D5":
+      keyboard.press('S')
+    elif closestNote == "E5":
+      keyboard.press('A')
+    elif closestNote == "F5":
+      keyboard.press('W')
+    elif closestNote == "G5":
+      keyboard.press(Key.space)
+    else:
+      keyboard.release('D')
+      keyboard.release('S')
+      keyboard.release('A')
+      keyboard.release('W')
+      keyboard.release(Key.space)
   else:
     print('no input')
