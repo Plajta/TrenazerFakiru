@@ -1,8 +1,6 @@
 import sounddevice as sd
 import numpy as np
 import scipy.fftpack
-from pynput.mouse import Controller as MouseControl
-from pynput.mouse import Button as MouseButton
 import pyautogui
 import os
 
@@ -15,7 +13,6 @@ WINDOW_STEP = 21050 # step size of window
 WINDOW_T_LEN = WINDOW_SIZE / SAMPLE_FREQ # length of the window in seconds
 SAMPLE_T_LENGTH = 1 / SAMPLE_FREQ # length between two samples in seconds
 windowSamples = [0 for _ in range(WINDOW_SIZE)]
-mouse = MouseControl()
 
 last = False
 
@@ -32,9 +29,8 @@ def find_closest_note(pitch):
 # The sounddecive callback function
 # Provides us with new data once WINDOW_STEP samples have been fetched
 def Run(indata, frames, time, status):
-  oskstate = False
-  global windowSamples
-  global last
+  global windowSamples, last
+
   if status:
     print(status)
   if any(indata):
@@ -49,7 +45,7 @@ def Run(indata, frames, time, status):
     maxFreq = maxInd * (SAMPLE_FREQ/WINDOW_SIZE)
     closestNote, closestPitch = find_closest_note(maxFreq)
 
-    #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
+    print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")
     if closestNote == "C5":
       pyautogui.keyDown('D')
       last = True
@@ -66,11 +62,9 @@ def Run(indata, frames, time, status):
       pyautogui.keyDown('space')
       last = True
     elif closestNote == "D6":
-      mouse.press(MouseButton.left)
-      mouse.release(MouseButton.left)
+      pyautogui.click()
     elif closestNote == "C6":
-      mouse.press(MouseButton.right)
-      mouse.release(MouseButton.right)
+      pyautogui.click(button="right")
     else:
       if last:
         pyautogui.keyUp('D')
@@ -78,8 +72,3 @@ def Run(indata, frames, time, status):
         pyautogui.keyUp('A')
         pyautogui.keyUp('W')
         pyautogui.keyUp('space')
-  else:
-    #print('no input')
-    pass
-  
-  #print(f"Closest note: {closestNote} {maxFreq:.1f}/{closestPitch:.1f}")

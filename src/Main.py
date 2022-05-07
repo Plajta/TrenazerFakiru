@@ -17,7 +17,7 @@ easing = 0.05
 def Main():
     global Last_loc
 
-    video = V.init(2)
+    video = V.init(0)
 
     #try:
     with sd.InputStream(channels=1, callback=A.Run, blocksize=A.WINDOW_STEP, samplerate=A.SAMPLE_FREQ):
@@ -53,6 +53,7 @@ def Main():
             pyautogui.move(joystick[0],joystick[1])
             #pyautogui.move(joystick[0],joystick[1], 0.1, pyautogui.easeInOutSine)
 
+       
             #dx = joystick[0]
             #x = (V.Wrists[0][0] + V.Wrists[1][0]) / 2
             #x += dx * easing
@@ -61,9 +62,9 @@ def Main():
             #y = (V.Wrists[0][1] + V.Wrists[1][1]) / 2
             #y += dy * easing
 
-            cv2.imshow('frame', image)
-            if cv2.waitKey(1) & 0xFF == ord('q'):
-                break
+            #cv2.imshow('frame', image)
+            #if cv2.waitKey(1) & 0xFF == ord('q'):
+            #    break
     #except Exception as e: print(str(e))
         
 if __name__ == "__main__":
