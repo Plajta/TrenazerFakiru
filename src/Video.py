@@ -51,3 +51,6 @@ def HandsDetect(image):
 
 def AbsolteMouse(abs_pos):
     mouse.position = (1920-4*abs_pos[0], 2*abs_pos[1])
+
+def RelativeMouse(DiffX,DiffY):
+    mouse.move(DiffX, -DiffY)

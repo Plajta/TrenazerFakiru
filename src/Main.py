@@ -2,12 +2,10 @@ import Audio as A
 import Video as V
 import cv2
 import sounddevice as sd
-from pynput.mouse import Button, Controller
 import numpy as np
 
 Last_loc = np.zeros((2, 2))
 
-mouse = Controller()
 
 def Main():
     global Last_loc, DiffX, DiffY
@@ -34,8 +32,6 @@ def Main():
                 Current_loc = np.array(V.Wrists)
                 Diff = np.subtract(Last_loc, Current_loc)
                 #print(Diff)
-                
-                V.AbsolteMouse(((Current_loc[0][0]+Current_loc[1][0])/2, (Current_loc[0][1]+Current_loc[1][1])/2))
 
                 Last_loc = Current_loc
 
@@ -45,9 +41,9 @@ def Main():
                 else:
                     Diff[0][0] = DiffX
                     Diff[0][1] = DiffY
-
-                mouse.move(DiffX, -DiffY)
-                #print(DiffX, DiffY)
+                
+                #V.AbsolteMouse(((Current_loc[0][0]+Current_loc[1][0])/2, (Current_loc[0][1]+Current_loc[1][1])/2))
+                V.RelativeMouse(DiffX, DiffY)
 
                 cv2.imshow('frame', image)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
