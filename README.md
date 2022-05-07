@@ -1,3 +1,2 @@
 # TrenazerFakyru
 Trenažer Fakýrů
-# test
