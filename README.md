@@ -1,4 +1,4 @@
-# TrenazerFakir
+# TrenazerFakiru
 Trenažer Fakírů (Fakir trainer) is a special software used to train Fakirs by controlling a whole computer by flute (we won an AimtecHackathon 2022 in Pilsen with this one)
 This code is divided into audio (used Fast Fourier transform with sounddevice library) and video part (mediapipe with Wrist acceleration detection)
 
