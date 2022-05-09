@@ -5,6 +5,7 @@ import cv2
 import sounddevice as sd
 import numpy as np
 import pyautogui
+from pynput.mouse import Button, Controller 
 
 #mouse = Controller()
 joystick = np.zeros(2)
@@ -13,6 +14,7 @@ Default_X = 320
 Default_Y = 240
 
 easing = 0.05
+mouse = Controller()
 
 def Main():
     global Last_loc
@@ -50,7 +52,7 @@ def Main():
 
             #print(joystick)
 
-            pyautogui.move(joystick[0],joystick[1])
+            mouse.move(joystick[0], joystick[1])
             #pyautogui.move(joystick[0],joystick[1], 0.1, pyautogui.easeInOutSine)
 
        
