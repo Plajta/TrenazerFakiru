@@ -1,15 +1,11 @@
 import mediapipe as mp
 import cv2
-from pynput.mouse import Button, Controller
 import numpy as np
 
 #setup
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 mp_hands = mp.solutions.hands
-
-mouse = Controller()
-
 
 Wrists = [[0, 0], [0, 0]]
 
